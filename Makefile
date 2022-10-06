@@ -1,4 +1,4 @@
-install:
+install: venv/bin/activate
 ifdef pkg
 	./venv/bin/pip install $(pkg)
 	./venv/bin/pip freeze > requirements.txt
@@ -18,4 +18,5 @@ venv/bin/activate: requirements.txt
 	python3 -m venv venv
 	./venv/bin/pip install -r requirements.txt
 test: venv/bin/activate
-	./venv/bin/python -m pytest tests
+	./venv/bin/coverage run -m pytest tests
+	./venv/bin/coverage report
