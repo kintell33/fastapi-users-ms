@@ -18,5 +18,10 @@ venv/bin/activate: requirements.txt
 	python3 -m venv venv
 	./venv/bin/pip install -r requirements.txt
 test: venv/bin/activate
+	@echo  "\033[33m ========= TESTS =========== \033[0m"
+	@echo "\n"
 	./venv/bin/coverage run -m pytest tests
+	@echo "\n"
+	@echo  "\033[33m ========= COVERAGE =========== \033[0m"
+	
 	./venv/bin/coverage report
