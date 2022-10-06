@@ -1,3 +1,11 @@
+install:
+ifdef pkg
+	./venv/bin/pip install $(pkg)
+	./venv/bin/pip freeze > requirements.txt
+else
+	@echo 'no pkg defined, please execute make pkg=package_to_install install'
+endif
+
 freeze:
 	./venv/bin/pip freeze > requirements.txt
 run: venv/bin/activate
