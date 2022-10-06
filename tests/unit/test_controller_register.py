@@ -12,12 +12,47 @@ def test_register():
         "email": "user@email.com", "nickname": "usernew"}
 
 
+def test_register_invalid_parameters():
+    response = client.post(
+        "/v1/register", json={})
+    assert response.status_code == 422
+    assert response.json() == {
+        "detail": [
+            {
+                "loc": [
+                    "body",
+                    "email"
+                ],
+                "msg": "field required",
+                "type": "value_error.missing"
+            },
+            {
+                "loc": [
+                    "body",
+                    "password"
+                ],
+                "msg": "field required",
+                "type": "value_error.missing"
+            },
+            {
+                "loc": [
+                    "body",
+                    "nickname"
+                ],
+                "msg": "field required",
+                "type": "value_error.missing"
+            }
+        ]
+    }
+
+
 def test_register_invalid_email():
     response = client.post(
         "/v1/register", json={"email": "useremail.com", "password": "1qaz2wsx", "nickname": "usernew"})
     assert response.status_code == 422
     assert response.json() == {'detail': [{'loc': [
         'body', 'email'], 'msg': 'value is not a valid email address', 'type': 'value_error.email'}]}
+
 
 # def test_register_duplicated_user():
 #     response = client.post(
