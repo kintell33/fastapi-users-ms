@@ -5,11 +5,11 @@ from src.exceptions.duplicated_exception import DuplicatedException
 
 
 class Api():
-    def exception(f ):
+    def exception(f):
         @wraps(f)
-        def decorated_function(*args, **kwargs):
+        async def decorated_function(*args, **kwargs):
             try:
-                return f(*args, **kwargs)
+                return await f(*args, **kwargs)
             except DuplicatedException as error:
-                return JSONResponse(content={"status": "OK", "message": "Resource not found"}, status_code=status.HTTP_400_BAD_REQUEST)
+                return JSONResponse(content={"status": "duplicated-error", "message": "Resource not found"}, status_code=status.HTTP_400_BAD_REQUEST)
         return decorated_function
