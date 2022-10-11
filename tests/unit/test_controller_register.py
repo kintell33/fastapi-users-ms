@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 from main import app
+from src.exceptions.duplicated_exception import DuplicatedException
 
 client = TestClient(app)
 
@@ -55,8 +56,9 @@ def test_register_invalid_email():
 
 
 def test_register_duplicated_user(mocker):
-    mocker.patch("src.services.register_service.RegisterService.register", return_value = False)
+    mocker.patch("src.services.register_service.RegisterService.register", return_value = DuplicatedException)
     response = client.post(
         "/v1/register", json={"email": "user2@email.com", "password": "1qaz2wsx", "nickname": "usernew"})
     assert response.status_code == 400
     assert response.json() == {"status":"duplicated-error","message":"The user already exist"}
+
